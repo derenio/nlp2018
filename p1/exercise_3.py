@@ -14,6 +14,7 @@ class Exercise3(Exercise2):
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         print("Usage: python exercise_3.py N-grams")
+        exit(0)
     with open(sys.argv[1], "r") as n_grams_file:
         beginnings, n_grams = read_ngrams(n_grams_file)
         exercise3 = Exercise3()

@@ -49,6 +49,7 @@ if __name__ == "__main__":
     # cat poleval_3grams.txt | grep -v "^[1]\?[0-9] " > poleval_3grams_K_gt_19.txt
     if len(sys.argv) < 2:
         print("Usage: python exercise_2.py N-grams")
+        exit(0)
     with open(sys.argv[1], "r") as n_grams_file:
         beginnings, n_grams = read_ngrams(n_grams_file)
         exercise2 = Exercise2()

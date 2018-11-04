@@ -59,6 +59,7 @@ def reversed_max_match(untokenized_corpus, reversed_trie):
 if __name__ == "__main__":
     if len(sys.argv) < 3:
         print("Usage: python exercise_1.py corpus untokenized_corpus")
+        exit(0)
     with open(sys.argv[1], "r") as corpus, open(sys.argv[2], "r") as untokenized_corpus:
         reversed_trie = reversed_words_trie(corpus)
         retokenized = list(reversed_max_match(untokenized_corpus, reversed_trie))

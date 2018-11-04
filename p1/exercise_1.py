@@ -84,6 +84,7 @@ def similarity(base_lines, lines):
 if __name__ == "__main__":
     if len(sys.argv) < 3:
         print("Usage: python exercise_1.py corpus untokenized_corpus")
+        exit(0)
     with open(sys.argv[1], "r") as corpus, open(sys.argv[2], "r") as untokenized_corpus:
         trie = words_trie(corpus)
         retokenized = list(max_match(untokenized_corpus, trie))
