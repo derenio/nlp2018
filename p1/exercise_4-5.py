@@ -1,12 +1,9 @@
-import sys
 import os
 import pickle
-from math import log
-from itertools import permutations
+import sys
 from collections import defaultdict
-
-
-PICKLED_NGRAMS_FILENAME = "/home/derenio/data/n_grams.pickle"
+from itertools import permutations
+from math import log
 
 SENTENCES = [
     "Judyta dała wczoraj Stefanowi czekoladki.",
@@ -46,9 +43,10 @@ class NGrams:
         self.read_or_generate_N_grams(n3_grams_filename)
 
     def read_or_generate_N_grams(self, n3_grams_filename):
+        pickled_ngrams_filename = n3_grams_filename + ".pickle"
         # Try to load pickled data
-        if os.path.isfile(PICKLED_NGRAMS_FILENAME):
-            with open(PICKLED_NGRAMS_FILENAME, "rb") as pickled_ngrams_file_obj:
+        if os.path.isfile(pickled_ngrams_filename):
+            with open(pickled_ngrams_filename, "rb") as pickled_ngrams_file_obj:
                 (
                     self.n3_grams,
                     self.n3_count,
@@ -61,7 +59,7 @@ class NGrams:
             # Generate n*_grams
             self.generate_N_grams(n3_grams_filename)
             # Pickle newly generated n*_grams
-            with open(PICKLED_NGRAMS_FILENAME, "wb") as pickled_ngrams_file_obj:
+            with open(pickled_ngrams_filename, "wb") as pickled_ngrams_file_obj:
                 data = (
                     self.n3_grams,
                     self.n3_count,
@@ -136,15 +134,16 @@ class NGrams:
 
 
 if __name__ == "__main__":
-    # cat poleval_3grams.txt | grep -v "^[0-9] " > poleval_3grams_K_gt_9.txt
+    # cat poleval_3grams.txt | grep -v "^[0-1] " > poleval_3grams_K_gt_1.txt
     # cat poleval_3grams.txt | grep -v "^[0-3] " > poleval_3grams_K_gt_3.txt
+    # cat poleval_3grams.txt | grep -v "^[1-9]\?[0-9] " > poleval_3grams_K_gt_99.txt
     if len(sys.argv) < 2:
         print("Usage: python exercise_4-5.py 3-grams")
         exit(0)
     n3_grams_filename = sys.argv[1]
     n_grams = NGrams(n3_grams_filename)
-    for sentence in SENTENCES:
-        print('Sentence: "{sentence}"'.format(sentence=sentence))
+
+    def run(sentence):
         words = tokenize(sentence)
         bottom_3, top_3 = n_grams.generate_best_sentences(words)
         print("Top 3:")
@@ -154,3 +153,12 @@ if __name__ == "__main__":
         for score, sentence in bottom_3:
             print("\t", " ".join(sentence))
         print("\n\t---\n")
+
+    for sentence in SENTENCES:
+        print('Sentence: "{sentence}"'.format(sentence=sentence))
+        run(sentence)
+    # Loop at the end for user's provided examples
+    sentence = input("> ")
+    while sentence:
+        run(sentence)
+        sentence = input("> ")
