@@ -128,7 +128,7 @@ class NGrams:
 
     def generate_best_sentences(self, words):
         results = []
-        for perm in permutations(words):
+        for perm in set(permutations(words)):
             score = self.score_sentence(perm)
             results.append((score, perm))
         results.sort()
